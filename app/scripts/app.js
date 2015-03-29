@@ -41,7 +41,13 @@ angular
         templateUrl: 'views/login.html',
         controller: 'login'
       })
+      .when('/user', {
+        templateUrl: 'views/user.html',
+        controller: 'user'
+      })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: function() {
+        window.location = "/404.html";
+    }
       });
   });

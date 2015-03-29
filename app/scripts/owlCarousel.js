@@ -1,5 +1,5 @@
 'use strict';
-(function($){
+
      $(document).ready(function() {
  
   $('#owl-demo').owlCarousel({
@@ -13,6 +13,6 @@
   });
  
 });
-})(jQuery);
+
  
 
