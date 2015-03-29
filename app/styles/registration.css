@@ -10,6 +10,19 @@
     margin-top: 10px;
 }
 
+.signup-wrapper select[text] {
+    padding: 0 .4em 0 .4em;
+    margin-bottom: 2em;
+    vertical-align: middle;
+    border-radius: 3px;
+    min-width: 50px;
+    max-width: 550px;
+    width: 100%;
+    min-height: 36px;
+    background-color: #fff;
+    border: 3px solid #c9c9c9 !important;
+}
+
 .signup-wrapper input[text] {
     padding: 0 .4em 0 .4em;
     margin-bottom: 2em;

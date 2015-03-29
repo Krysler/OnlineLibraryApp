@@ -3,7 +3,7 @@
 angular.module('angularApp')
     .controller('SignUpCtrl', function () {
         var ctrl = this,
-            newCustomer = { email:'', userName:'', password:'' };
+            newCustomer = { email:'', userName:'', password:'', country:'' };
 
         var signup = function () {
             if( ctrl.signupForm.$valid) {
@@ -13,7 +13,7 @@ angular.module('angularApp')
         };
 
         var clearForm = function () {
-            ctrl.newCustomer = { email:'', userName:'', password:'' };
+            ctrl.newCustomer = { email:'', userName:'', password:'', country:'' };
             ctrl.signupForm.$setUntouched();
             ctrl.signupForm.$setPristine();
         };
@@ -30,6 +30,10 @@ angular.module('angularApp')
             ctrl.showUsernamePrompt = value;
         };
 
+        var toggleCountryPrompt = function (value) {
+            ctrl.showCountryPrompt = value;
+        };
+
         var hasErrorClass = function (field) {
             return ctrl.signupForm[field].$touched && ctrl.signupForm[field].$invalid;
         };
@@ -38,9 +42,11 @@ angular.module('angularApp')
             return ctrl.signupForm[field].$touched || ctrl.signupForm.$submitted;
         };
 
+        ctrl.showCountryPrompt = false;
         ctrl.showEmailPrompt = false;
         ctrl.showUsernamePrompt = false;
         ctrl.showSubmittedPrompt = false;
+        ctrl.toggleCountryPrompt = toggleCountryPrompt;
         ctrl.toggleEmailPrompt = toggleEmailPrompt;
         ctrl.toggleUsernamePrompt = toggleUsernamePrompt;
         ctrl.getPasswordType = getPasswordType;
