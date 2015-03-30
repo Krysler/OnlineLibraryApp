@@ -7,6 +7,10 @@
  * # MainCtrl
  * Controller of the angularApp
  */
+
+ $(document).ready(function(){
+  $(".owl-carousel").owlCarousel();
+});
 angular.module('angularApp')
   .controller('MainCtrl', function ($scope) {
     $scope.awesomeThings = [

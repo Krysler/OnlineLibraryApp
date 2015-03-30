@@ -17,7 +17,8 @@ angular
     'ngSanitize',
     'ngTouch',
     'ngAria',
-    'ngMessages'
+    'ngMessages',
+    'ui.bootstrap'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -27,7 +28,7 @@ angular
       })
       .when('/about', {
         templateUrl: 'views/about.html',
-        controller: 'AboutCtrl'
+        controller: 'ModalDemoCtrl'
       })
       .when('/contact', {
         templateUrl: 'views/contact.html',

@@ -4,9 +4,9 @@
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-body {
+/*body {
     padding-top: 70px; /* Required padding for .navbar-fixed-top. Change if height of navigation changes. */
-}
+/* } */
 
 .navbar-fixed-top .nav {
     padding: 15px 0;
@@ -21,7 +21,8 @@ footer {
 }
 
 .books-preview{
-    height:300px;
+    height:230px;
+    width:150px;
     padding-bottom: 5px;
 }
 
