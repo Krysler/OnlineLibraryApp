@@ -84,9 +84,9 @@
               <li><a ng-href="#/contact">Contact</a></li>
               <li><a ng-href="#/user">User</a></li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a ng-href="#/registration"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-              <li><a ng-href="#/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            <ul class="nav navbar-nav navbar-right" ng-controller="ModalDemoCtrl">
+              <li><a ng-click="openReg()"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+              <li ><a ng-click="open()"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>     
             </ul>
           </div>
         </div>
@@ -150,7 +150,8 @@
         <script src="scripts/controllers/registration.js"></script>
         <script src="scripts/controllers/user.js"></script>
         <script src="scripts/controllers/login.js"></script>
-        <script src="scripts/ui-bootstrap.js"></script>
+        <script src="scripts/controllers/contact.js"></script>
+
         <!-- endbuild -->
 </body>
 </html>

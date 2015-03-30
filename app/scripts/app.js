@@ -40,11 +40,11 @@ angular
       })
       .when('/login', {
         templateUrl: 'views/login.html',
-        controller: 'login'
+        controller: 'ModalDemoCtrl'
       })
       .when('/user', {
         templateUrl: 'views/user.html',
-        controller: 'user'
+        controller: 'UserCtrl'
       })
       .otherwise({
         redirectTo: function() {

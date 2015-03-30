@@ -35,3 +35,7 @@ footer {
         padding: 15px 0;
     }
 }
+
+.modal-dialog{
+    width:400px;
+}

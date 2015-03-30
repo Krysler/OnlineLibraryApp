@@ -9,7 +9,27 @@ angular.module('angularApp').controller('ModalDemoCtrl', function ($scope, $moda
   $scope.open = function (size) {
 
     var modalInstance = $modal.open({
-      templateUrl: 'myModalContent.html',
+      templateUrl: 'views/login.html',
+      controller: 'ModalInstanceCtrl',
+      size: size,
+      resolve: {
+        items: function () {
+          return $scope.items;
+        }
+      }
+    });
+
+    modalInstance.result.then(function (selectedItem) {
+      $scope.selected = selectedItem;
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+  };
+
+    $scope.openReg = function (size) {
+
+    var modalInstance = $modal.open({
+      templateUrl: 'views/registration.html',
       controller: 'ModalInstanceCtrl',
       size: size,
       resolve: {
