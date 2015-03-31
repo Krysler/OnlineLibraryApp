@@ -39,3 +39,18 @@ footer {
 .modal-dialog{
     width:400px;
 }
+
+.devs ul li{
+    display: inline-block;
+    text-decoration: none;
+}
+.devs ul li a{
+    text-decoration: none;
+}
+.devs ul li img{
+    display: block;
+}
+
+.text-center{
+    text-align: centre;
+}

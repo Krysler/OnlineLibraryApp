@@ -28,11 +28,7 @@ angular
       })
       .when('/about', {
         templateUrl: 'views/about.html',
-        controller: 'ModalDemoCtrl'
-      })
-      .when('/contact', {
-        templateUrl: 'views/contact.html',
-        controller: 'ContactCtrl'
+        controller: 'AboutCtrl'
       })
       .when('/registration', {
         templateUrl: 'views/registration.html',

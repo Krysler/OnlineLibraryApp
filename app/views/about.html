@@ -1,1 +1,173 @@
-<p>About page</p>
+	<div class="row">
+		<div class="tabBody" ng-controller="AboutCtrl as ab">
+		<ul class="nav nav-tabs tab">
+        	<li ng-class="{active:ab.isSelected(1)}"><a href ng-click="ab.selectTab(1)">Our team</a></li>
+        	<li ng-class="{active:ab.isSelected(2)}"><a href ng-click="ab.selectTab(2)">Library</a></li>
+		</ul>
+	
+
+		<div  ng-show="ab.isSelected(1)" class="devs" align="center" >
+			<ul >
+				<li><a href ng-click="ab.devSelect(1)"><img src="images/Rupert_Simpson.png" alt="" ><span>Mykhailo Lobaievskyi</span></a></li>
+				<li><a href ng-click="ab.devSelect(2)"><img src="images/Sven_Simpson.png" alt="" ><span>Oleksandr Tkach</span></a></li>
+				<li><a href ng-click="ab.devSelect(3)"><img src="images/Eliza_Simpson.png" alt="" ><span>Iryna Tkach</span></a></li>
+			</ul>
+
+			<div clas="devInfo" ng-show="ab.isDevSelected(1)">
+			<div class="container">
+			<div class="row">
+
+			        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-1 toppad" >
+			          <div class="panel panel-info">
+			            <div class="panel-heading"></div>
+			            <div class="panel-body">
+			              <div class="row">
+
+			                <div class=" col-md-9 col-lg-9 "> 
+			                  <table class="table table-user-information">
+			                     <tbody>
+			                 <tr>
+                              <td>Name</td>
+                              <td>Mykhailo Lobaievskyi</td>
+                              </tr>
+                             <tr>
+                            <tr>
+                              <td>Country</td>
+                              <td>Ukraine</td>  
+                            </tr>
+                            <tr>
+                              <td>Skills</td>
+                              <td>HTML5, CSS3, JavaScript, jQuery, AngularJS, Bootstrap, UI.Bootstrap, Grunt</td>
+                            </tr>
+                            <tr>
+                              <td>Worked with</td>
+                              <td>Front-end developmend</td>
+                            </tr>
+                            <tr>
+                              <td>Email</td>
+                              <td><a href="mailto:info@support.com">info@support.com</a></td>
+                            </tr>
+
+                           
+                          </tbody>
+			                  </table>
+			                  
+			                
+			                </div>
+			              </div>
+			            </div>
+			                
+			          </div>
+			        </div>
+			      </div>
+			</div>
+		</div>
+		<div clas="devInfo" ng-show="ab.isDevSelected(2)">
+			<div class="container">
+				
+				<div class="row">
+
+			        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-1 toppad" >
+			          <div class="panel panel-info">
+			            <div class="panel-heading"></div>
+			            <div class="panel-body">
+			              <div class="row">
+
+			                <div class=" col-md-9 col-lg-9 "> 
+			                  <table class="table table-user-information">
+			                    <tbody>
+			                     <tr>
+                              <td>Name</td>
+                              <td>Oleksandr Tkach</td>
+                              </tr>
+			                      <tr>
+			                        <td>Country</td>
+			                        <td>Ukraine</td> 
+			                      </tr>
+			                      <tr>
+			                        <td>Skills</td>
+			                        <td>PHP, HTML5, CSS3, JavaScript, jQuery, Bootstrap</td>
+			                      </tr>
+			                      <tr>
+			                        <td>Worked with</td>
+			                        <td>Back-end developmend</td>
+			                      </tr>
+			                      <tr>
+			                        <td>Email</td>
+			                        <td><a href="mailto:info@support.com">info@support.com</a></td>
+			                      </tr>
+
+			                     
+			                    </tbody>
+			                  </table>
+			                  
+			                
+			                </div>
+			              </div>
+			            </div>
+			                
+			          </div>
+			        </div>
+			      </div>
+						</div>
+		</div>
+
+			<div clas="devInfo" ng-show="ab.isDevSelected(3)">
+			<div class="container">
+				
+				<div class="row">
+
+			        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-1 toppad" >
+			          <div class="panel panel-info">
+			            <div class="panel-heading"></div>
+			            <div class="panel-body">
+			              <div class="row">
+
+			                <div class=" col-md-9 col-lg-9 "> 
+			                  <table class="table table-user-information">
+			                    <tbody>
+			                     <tr>
+                              <td>Name</td>
+                              <td>Iryna Tkach</td>
+                              </tr>
+			                      <tr>
+			                        <td>Country</td>
+			                        <td>Ukraine</td> 
+			                      </tr>
+			                      <tr>
+			                        <td>Skills</td>
+			                        <td>Adobe Photoshop, Adobe Illustrator, 3ds Max, Blender</td>
+			                      </tr>
+			                      <tr>
+			                        <td>Worked with</td>
+			                        <td>Site Design and Documentation</td>
+			                      </tr>
+			                      <tr>
+			                        <td>Email</td>
+			                        <td><a href="mailto:info@support.com">info@support.com</a></td>
+			                      </tr>
+
+			                     
+			                    </tbody>
+			                  </table>
+			                  
+			                
+			                </div>
+			              </div>
+			            </div>
+			                
+			          </div>
+			        </div>
+			      </div>
+				</div>
+		</div>
+		</div>
+
+		<div  ng-show="ab.isSelected(2)" class="about" align="center" >
+			
+			<h2>Everything you need to know about life is here!!!</h2>
+			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+
+		</div>
+	</div>
+</div>
