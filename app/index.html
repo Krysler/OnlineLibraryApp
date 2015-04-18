@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="styles/owl.theme.default.css"/>
     <link rel="stylesheet" href="styles/owl.carousel.css" />
     <link rel="stylesheet" href="styles/user.css" />
+    <link rel="stylesheet" href="styles/index.css" />
     <!-- endbuild -->
   </head>
   <body ng-app="angularApp">
@@ -83,7 +84,16 @@
               <li><a ng-href="#/about">About</a></li>
               <li><a ng-href="#/user">User</a></li>
             </ul>
+            
             <ul class="nav navbar-nav navbar-right" ng-controller="ModalDemoCtrl">
+            <li>
+                <form id="custom-search-form" class="form-search form-horizontal pull-right">
+                <div class="input-append span12">
+                    <input type="text" class="search-query" placeholder="Search">
+                    <button type="submit" class="btn"><i class="icon-search"></i></button>
+                </div>
+            </form>
+            </li>
               <li><a ng-click="openReg()"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
               <li ><a ng-click="open()"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>     
             </ul>
