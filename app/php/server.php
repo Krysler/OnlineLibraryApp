@@ -44,7 +44,7 @@ class Server    {
         $number = intval($num);
         if($number!=0)
         {
-            $this -> sqlQuery = "SELECT book.id_book, book.title, book.author, book.category, book.year, book.photo, book.likes_num FROM book ORDER BY id_book DESC LIMIT $number";
+            $this -> sqlQuery = "SELECT * FROM book ORDER BY `id_book` DESC LIMIT $number";
             $this -> dataSet = mysql_query($this -> sqlQuery);
             if(!is_resource($this->dataSet))
             {
@@ -64,7 +64,7 @@ class Server    {
         $number = intval($num);
         if($number!=0)
         {
-            $this -> sqlQuery = "SELECT book.id_book, book.title, book.author, book.category, book.year, book.photo, book.likes_num FROM book ORDER BY likes_num ASC LIMIT $number";
+            $this -> sqlQuery = "SELECT * FROM `book` ORDER BY `likes_num` ASC LIMIT $number";
             $this -> dataSet = mysql_query($this -> sqlQuery);
             if(!is_resource($this->dataSet))
             {
@@ -84,7 +84,7 @@ class Server    {
         $id_book = intval($id);
         if($id_book!=0)
         {
-            $this -> sqlQuery = "SELECT * FROM book WHERE id_book = $id_book";
+            $this -> sqlQuery = "SELECT * FROM `book` WHERE `id_book` = $id_book";
             $this -> dataSet = mysql_query($this -> sqlQuery);
             if(!is_resource($this->dataSet))
             {
@@ -104,7 +104,7 @@ class Server    {
         $id_user = intval($id);
         if($id_user!=0)
         {
-            $this -> sqlQuery = "SELECT * FROM user WHERE id_user = $id_user";
+            $this -> sqlQuery = "SELECT * FROM `user` WHERE `id_user` = $id_user";
             $this -> dataSet = mysql_query($this -> sqlQuery);
             if(!is_resource($this->dataSet))
             {
@@ -125,7 +125,7 @@ class Server    {
         if($id_user!=0)
         {
             //$this -> sqlQuery = "SELECT book.id_book, book.title, book.author, book.category, book.year FROM book INNER JOIN liked ON liked.id_book = book.id_book WHERE liked.id_user = $id_user ORDER BY book.id_book";
-            $this -> sqlQuery = "SELECT book.id_book, book.title, book.author, book.category, book.year FROM book WHERE book.id_book = (SELECT liked.id_book FROM liked WHERE liked.id_user = $id_user) ORDER BY book.id_book";
+            $this -> sqlQuery = "SELECT `book`.`id_book`, `book`.`title`, `book`.`author`, `book`.`category`, `book`.`year` FROM `book` WHERE `book`.`id_book` = (SELECT `liked`.`id_book` FROM `liked` WHERE `liked`.`id_user` = $id_user) ORDER BY `book`.`id_book`";
             $this -> dataSet = mysql_query($this -> sqlQuery);
             if(!is_resource($this->dataSet))
             {
@@ -145,7 +145,7 @@ class Server    {
         $category = mysql_real_escape_string($str);
         if($category!=NULL)
         {
-            $this -> sqlQuery = "SELECT * FROM book WHERE category = '".$category."'";
+            $this -> sqlQuery = "SELECT * FROM `book` WHERE `category` = '".$category."'";
             $this -> dataSet = mysql_query($this -> sqlQuery);
             if(!is_resource($this->dataSet))
             {
@@ -160,12 +160,13 @@ class Server    {
             return NULL;
         }
     }
-    function serach($str){
+    function search($str){
         $temp = array();
-        $search_str = mysql_real_escape_string($str);
+        $result = array();
+        $search_str = strtolower(mysql_real_escape_string($str));
         if($search_str!=NULL)
         {
-            $this -> sqlQuery = "SELECT id_book, title FROM book";
+            $this -> sqlQuery = "SELECT `id_book`, `title` FROM `book`";
             $this -> dataSet = mysql_query($this -> sqlQuery);
             if(!is_resource($this->dataSet))
             {
@@ -173,46 +174,24 @@ class Server    {
             }
             if (!mysql_num_rows($this -> dataSet) == 0) {
                 while ($row = mysql_fetch_assoc($this -> dataSet)) {
-                        array_push($temp,$row);
+                    $temp[$row['id_book']] = $row['title'];
                 }
-                $flag = false;
-                $this -> sqlQuery = "SELECT * FROM book WHERE id_book in (";
-                foreach ($temp as $key => $value) {
-                    $words = explode(" ", $value['title']);
-                    foreach ($words as $key_w => $value_w) {
-                        if(strcasecmp($value_w, $search_str) == 0)
-                        {
-                            $this -> sqlQuery .= "'".$value['id_book']."',";
-                            $flag = true;
-                        }
-                    } 
-                }
-                $this -> sqlQuery = rtrim($this -> sqlQuery, ",");
-                $this -> sqlQuery .= ")";
-                if(!$flag)
-                {
-                    unset($temp);
-                    $temp = array();
-                    return json_encode($temp);
-                }
-                $this -> dataSet = mysql_query($this -> sqlQuery);
-                if(!is_resource($this->dataSet))
-                {
-                    die('Error: ' . mysql_error());
-                }
-                if (!mysql_num_rows($this -> dataSet) == 0) 
-                {
-                    unset($temp);
-                    $temp = array();
-                    while ($row = mysql_fetch_assoc($this -> dataSet)) {
-                        array_push($temp,$row);
+                foreach($temp as $key=>$value){
+                    $pos = strpos(strtolower($value), $search_str);
+                    if ($pos === false) {
+                        unset($temp[$key]);
+                    }   else{
+                        $query = mysql_safequery("SELECT * FROM `book` WHERE `id_book`=?",array($key)) or die(mysql_error());
+                        $row = mysql_fetch_assoc($query);
+                        array_push($result,$row);
                     }
                 }
-                return json_encode($temp);
+                return json_encode($result);
             }
             return NULL;
         }
     }
+    
     function activate(){
         die('activate function call');
 //        $name = 'db_library';
@@ -253,61 +232,110 @@ class Server    {
 //                    `name` VARCHAR(255) NOT NULL
 //                    )") or die(mysql_error());
     }
-    function insertData(){
-        mysql_safequery("INSERT INTO `user`(`email`, `username`, `country`, `password`) VALUES (?,?,?,?)",array(
-            'admin@example.com',
-            'admin',
-            1,
-            'p@ssw0rd'
-        )) or die(mysql_error());
-        
-        mysql_safequery("INSERT INTO `category`(`name`) VALUES (?)",array(
-            'Adventures'
-        )) or die(mysql_error());
-        mysql_safequery("INSERT INTO `category`(`name`) VALUES (?)",array(
-            'Comics & Graphic Novels'
-        )) or die(mysql_error());
-        mysql_safequery("INSERT INTO `category`(`name`) VALUES (?)",array(
-            'Drama'
-        )) or die(mysql_error());
-        mysql_safequery("INSERT INTO `category`(`name`) VALUES (?)",array(
-            'Fairy Tale'
-        )) or die(mysql_error());
-        mysql_safequery("INSERT INTO `category`(`name`) VALUES (?)",array(
-            'Poetry'
-        )) or die(mysql_error());
-        mysql_safequery("INSERT INTO `category`(`name`) VALUES (?)",array(
-            'Romance'
-        )) or die(mysql_error());
-        mysql_safequery("INSERT INTO `category`(`name`) VALUES (?)",array(
-            'Science & Education'
-        )) or die(mysql_error());
-        mysql_safequery("INSERT INTO `category`(`name`) VALUES (?)",array(
-            'Science Fiction'
-        )) or die(mysql_error());
-        mysql_safequery("INSERT INTO `category`(`name`) VALUES (?)",array(
-            'Technology & Engineering'
-        )) or die(mysql_error());
-        
-        
-        mysql_safequery("INSERT INTO `country`(`name`) VALUES (?)",array(
-            'United Kingdom',
-        )) or die(mysql_error());
-        
-        mysql_safequery("INSERT INTO `author`(`name`, `country`, `info`) VALUES (?,?,?)",array(
-            'J. K. Rowling',
-            1,
-            'British novelist best known as the author of the Harry Potter fantasy series.'
-        )) or die(mysql_error());
-        
-        mysql_safequery("INSERT INTO `book`(`title`, `author`, `category`, `year`, `info`, `photo`) VALUES (?,?,?,?,?,?)",array(
-            'Harry Potter and the Philosopher`s Stone',
-            1,
-            1,
-            '1997',
-            'First novel in the Harry Potter series and J. K. Rowling`s debut novel.',
-            'http://localhost/library/php/images/1.jpg',
-        )) or die(mysql_error());
+    
+    function insertBooks(){
+//        mysql_safequery("INSERT INTO `user`(`email`, `username`, `country`, `password`) VALUES (?,?,?,?)",array(
+//            'admin@example.com',
+//            'admin',
+//            1,
+//            'p@ssw0rd'
+//        )) or die(mysql_error());
+//        
+//        mysql_safequery("INSERT INTO `category`(`name`) VALUES (?)",array(
+//            'Adventures'
+//        )) or die(mysql_error());
+//        mysql_safequery("INSERT INTO `category`(`name`) VALUES (?)",array(
+//            'Comics & Graphic Novels'
+//        )) or die(mysql_error());
+//        mysql_safequery("INSERT INTO `category`(`name`) VALUES (?)",array(
+//            'Drama'
+//        )) or die(mysql_error());
+//        mysql_safequery("INSERT INTO `category`(`name`) VALUES (?)",array(
+//            'Fairy Tale'
+//        )) or die(mysql_error());
+//        mysql_safequery("INSERT INTO `category`(`name`) VALUES (?)",array(
+//            'Poetry'
+//        )) or die(mysql_error());
+//        mysql_safequery("INSERT INTO `category`(`name`) VALUES (?)",array(
+//            'Romance'
+//        )) or die(mysql_error());
+//        mysql_safequery("INSERT INTO `category`(`name`) VALUES (?)",array(
+//            'Science & Education'
+//        )) or die(mysql_error());
+//        mysql_safequery("INSERT INTO `category`(`name`) VALUES (?)",array(
+//            'Science Fiction'
+//        )) or die(mysql_error());
+//        mysql_safequery("INSERT INTO `category`(`name`) VALUES (?)",array(
+//            'Technology & Engineering'
+//        )) or die(mysql_error());
+//        
+//        
+//        mysql_safequery("INSERT INTO `country`(`name`) VALUES (?)",array(
+//            'United Kingdom',
+//        )) or die(mysql_error());
+//        
+//        mysql_safequery("INSERT INTO `author`(`name`, `country`, `info`) VALUES (?,?,?)",array(
+//            'J. K. Rowling',
+//            1,
+//            'British novelist best known as the author of the Harry Potter fantasy series.'
+//        )) or die(mysql_error());
+//        
+//        mysql_safequery("INSERT INTO `book`(`title`, `author`, `category`, `year`, `info`, `photo`) VALUES (?,?,?,?,?,?)",array(
+//            'Harry Potter and the Philosopher`s Stone',
+//            1,
+//            1,
+//            '1997',
+//            'First novel in the Harry Potter series and J. K. Rowling`s debut novel.',
+//            'http://localhost/library/php/images/1.jpg',
+//        )) or die(mysql_error());
+//                mysql_safequery("INSERT INTO `book`(`title`, `author`, `category`, `year`, `info`, `photo`) VALUES (?,?,?,?,?,?)",array(
+//            'Harry Potter and the Chamber of Secrets',
+//            1,
+//            1,
+//            '1998',
+//            'The second novel in the Harry Potter series, written by J. K. Rowling.',
+//            'http://localhost/library/php/images/2.jpg',
+//        )) or die(mysql_error());
+//        mysql_safequery("INSERT INTO `book`(`title`, `author`, `category`, `year`, `info`, `photo`) VALUES (?,?,?,?,?,?)",array(
+//            'Harry Potter and the Prisoner of Azkaban',
+//            1,
+//            1,
+//            '1999',
+//            'The third novel in the Harry Potter series, written by J. K. Rowling.',
+//            'http://localhost/library/php/images/3.jpg',
+//        )) or die(mysql_error());
+//        mysql_safequery("INSERT INTO `book`(`title`, `author`, `category`, `year`, `info`, `photo`) VALUES (?,?,?,?,?,?)",array(
+//            'Harry Potter and the Goblet of Fire',
+//            1,
+//            1,
+//            '2000',
+//            'The fourth novel in the Harry Potter series, written by British author J. K. Rowling.',
+//            'http://localhost/library/php/images/4.jpg',
+//        )) or die(mysql_error());
+//        mysql_safequery("INSERT INTO `book`(`title`, `author`, `category`, `year`, `info`, `photo`) VALUES (?,?,?,?,?,?)",array(
+//            'Harry Potter and the Order of the Phoenix',
+//            1,
+//            1,
+//            '2003',
+//            'The fifth novel in the Harry Potter series, written by J. K. Rowling.',
+//            'http://localhost/library/php/images/6.jpg',
+//        )) or die(mysql_error());
+//        mysql_safequery("INSERT INTO `book`(`title`, `author`, `category`, `year`, `info`, `photo`) VALUES (?,?,?,?,?,?)",array(
+//            'Harry Potter and the Half-Blood Prince',
+//            1,
+//            1,
+//            '2005',
+//            'The sixth and penultimate novel in the Harry Potter series, written by British author J. K. Rowling.',
+//            'http://localhost/library/php/images/6.jpg',
+//        )) or die(mysql_error());
+//        mysql_safequery("INSERT INTO `book`(`title`, `author`, `category`, `year`, `info`, `photo`) VALUES (?,?,?,?,?,?)",array(
+//            'Harry Potter and the Deathly Hallows',
+//            1,
+//            1,
+//            '2007',
+//            'The seventh and final novel of the Harry Potter series, written by British author J. K. Rowling.',
+//            'http://localhost/library/php/images/7.jpg',
+//        )) or die(mysql_error());
     }
 }
 function mysql_safequery($query,$params=false) {
@@ -325,6 +353,7 @@ function mysql_safequery($query,$params=false) {
 
 $s = new Server();
 $s->dbConnect();
-$s->insertData();
+echo '<pre>';
+echo $s->search('Philosopher');
 $s->dbDisconnect();
 unset($s);
