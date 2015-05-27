@@ -24,7 +24,10 @@ angular
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+        controller: 'ModalDemoCtrl'
+      })
+      .when('/moreInfo', {
+        templateUrl: 'views/moreInfo.html'
       })
       .when('/about', {
         templateUrl: 'views/about.html',

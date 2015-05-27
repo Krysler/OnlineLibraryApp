@@ -54,3 +54,7 @@ footer {
 .text-center{
     text-align: centre;
 }
+
+.bold{
+    font-style: italic;
+}

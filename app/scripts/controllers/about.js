@@ -8,7 +8,7 @@
  * Controller of the angularApp
  */
 angular.module('angularApp')
-  .controller('AboutCtrl', function () {
+  .controller('AboutCtrl', function ($scope) {
 
   	this.tab = 1;
   	this.selectTab = function(setTab){
@@ -24,4 +24,10 @@ angular.module('angularApp')
   	this.isDevSelected = function(devSelected){
   		return this.dev === devSelected;
   	};
+
+  	$scope.awesomeThings = [
+      'HTML5 Boilerplate',
+      'AngularJS',
+      'Karma'
+    ];
   });
